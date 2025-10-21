@@ -84,27 +84,14 @@ public class MultiList {
         return true;
     }
 
-    public void displayAllLists() {
-        for (SinglyLinkedList list : lists) {
-            list.display();
-        }
-    }
 
     public void clearAll() {
         for (SinglyLinkedList list : lists) {
-            try {
-                var fieldFirst = SinglyLinkedList.class.getDeclaredField("first");
-                var fieldLast = SinglyLinkedList.class.getDeclaredField("last");
-                fieldFirst.setAccessible(true);
-                fieldLast.setAccessible(true);
-                fieldFirst.set(list, null);
-                fieldLast.set(list, null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            list.clear();
         }
         System.out.println("Все списки очищены.");
     }
+
 
     public void displayMainList() {
         lists[MAIN_LIST].display();

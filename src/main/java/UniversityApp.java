@@ -56,19 +56,19 @@ public class UniversityApp {
                     break;
 
                 case "3":
-                    multiList.displayByCriterion(1); // Отличники
+                    multiList.displayByCriterion(1); /// Отличники
                     break;
 
                 case "4":
-                    multiList.displayByCriterion(2); // Аттестат с отличием
+                    multiList.displayByCriterion(2); /// Аттестат с отличием
                     break;
 
                 case "5":
-                    multiList.displayByCriterion(3); // Иногородние
+                    multiList.displayByCriterion(3); /// Иногородние
                     break;
 
                 case "6":
-                    multiList.displayByCriterion(4); // Нуждающиеся в общежитии
+                    multiList.displayByCriterion(4); /// Нуждающиеся в общежитии
                     break;
 
                 case "7":

@@ -4,7 +4,6 @@ import lombok.Getter;
 public class SinglyLinkedList {
     private MultiListNode first;
     private MultiListNode last;
-    private MultiListNode ptr;
     private final String name;
     private final int listIndex;
 
@@ -17,24 +16,14 @@ public class SinglyLinkedList {
         return first == null;
     }
 
-    public boolean contains(MultiListNode node) {
-        MultiListNode current = first;
-        while (current != null) {
-            if (current == node) return true;
-            current = current.getNext()[listIndex];
-        }
-        return false;
-    }
-
     public void insertAtEnd(MultiListNode newNode) {
         if (newNode == null) return;
-
-        if (contains(newNode)) return;
 
         newNode.getNext()[listIndex] = null;
 
         if (isEmpty()) {
-            first = last = newNode;
+            first = newNode;
+            last = newNode;
         } else {
             last.getNext()[listIndex] = newNode;
             last = newNode;
@@ -46,6 +35,9 @@ public class SinglyLinkedList {
 
         if (previousNode == null) {
             first = nodeToDelete.getNext()[listIndex];
+            if (first == null) {
+                last = null;
+            }
         } else {
             previousNode.getNext()[listIndex] = nodeToDelete.getNext()[listIndex];
         }
@@ -55,6 +47,11 @@ public class SinglyLinkedList {
         }
 
         nodeToDelete.getNext()[listIndex] = null;
+    }
+
+    public void clear() {
+        first = null;
+        last = null;
     }
 
     public void display() {
