@@ -20,12 +20,14 @@ public class SinglyLinkedList {
         if (newNode == null) return;
 
         newNode.getNext()[listIndex] = null;
+        newNode.getPrev()[listIndex] = null;
 
         if (isEmpty()) {
             first = newNode;
             last = newNode;
         } else {
             last.getNext()[listIndex] = newNode;
+            newNode.getPrev()[listIndex] = last;
             last = newNode;
         }
     }
@@ -35,11 +37,14 @@ public class SinglyLinkedList {
 
         if (previousNode == null) {
             first = nodeToDelete.getNext()[listIndex];
-            if (first == null) {
-                last = null;
+            if (first != null) {
+                first.getPrev()[listIndex] = null;  // ← Добавить
             }
         } else {
             previousNode.getNext()[listIndex] = nodeToDelete.getNext()[listIndex];
+            if (nodeToDelete.getNext()[listIndex] != null) {
+                nodeToDelete.getNext()[listIndex].getPrev()[listIndex] = previousNode;  // ← Добавить
+            }
         }
 
         if (nodeToDelete == last) {
@@ -47,7 +52,9 @@ public class SinglyLinkedList {
         }
 
         nodeToDelete.getNext()[listIndex] = null;
+        nodeToDelete.getPrev()[listIndex] = null;
     }
+
 
     public void clear() {
         first = null;

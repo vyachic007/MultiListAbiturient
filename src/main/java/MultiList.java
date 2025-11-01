@@ -51,14 +51,12 @@ public class MultiList {
         MultiListNode nodeToDelete = null;
 
         MultiListNode current = lists[MAIN_LIST].getFirst();
-        MultiListNode previous = null;
 
         while (current != null) {
             if (current.getData().getLastName().equalsIgnoreCase(lastName)) {
                 nodeToDelete = current;
                 break;
             }
-            previous = current;
             current = current.getNext()[MAIN_LIST];
         }
 
@@ -67,22 +65,15 @@ public class MultiList {
             return false;
         }
 
-        for (SinglyLinkedList list : lists) {
-            MultiListNode prev = null;
-            MultiListNode curr = list.getFirst();
-            while (curr != null) {
-                if (curr == nodeToDelete) {
-                    list.deleteNode(nodeToDelete, prev);
-                    break;
-                }
-                prev = curr;
-                curr = curr.getNext()[list.getListIndex()];
-            }
+        for (int i = 0; i < lists.length; i++) {
+            lists[i].deleteNode(nodeToDelete, nodeToDelete.getPrev()[i]);
         }
 
         System.out.println("Абитуриент '" + lastName + "' удалён из всех списков.");
         return true;
     }
+
+
 
 
     public void clearAll() {
