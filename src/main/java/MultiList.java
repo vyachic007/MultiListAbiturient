@@ -74,8 +74,6 @@ public class MultiList {
     }
 
 
-
-
     public void clearAll() {
         for (SinglyLinkedList list : lists) {
             list.clear();
@@ -83,10 +81,6 @@ public class MultiList {
         System.out.println("Все списки очищены.");
     }
 
-
-    public void displayMainList() {
-        lists[MAIN_LIST].display();
-    }
 
     public void displayByCriterion(int index) {
         if (index >= 0 && index < lists.length) {

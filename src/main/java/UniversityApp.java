@@ -52,7 +52,7 @@ public class UniversityApp {
                     break;
 
                 case "2":
-                    multiList.displayMainList();
+                    multiList.displayByCriterion(0); /// Все абитуриенты
                     break;
 
                 case "3":
