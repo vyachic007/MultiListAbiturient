@@ -1,3 +1,9 @@
+package service;
+
+import model.Abiturient;
+import model.MultiListNode;
+import util.Messages;
+
 import java.util.Arrays;
 
 public class MultiList {
@@ -10,42 +16,38 @@ public class MultiList {
     private final SinglyLinkedList[] lists;
     private final String universityCity;
 
-
     public MultiList(String universityCity) {
         this.universityCity = universityCity;
         lists = new SinglyLinkedList[5];
 
-        lists[MAIN_LIST] = new SinglyLinkedList("Все абитуриенты", MAIN_LIST);
-        lists[EXCELLENT_EXAMS] = new SinglyLinkedList("Все экзамены на 5", EXCELLENT_EXAMS);
-        lists[HONORS_DIPLOMA] = new SinglyLinkedList("Аттестат с отличием", HONORS_DIPLOMA);
-        lists[OUT_OF_TOWN] = new SinglyLinkedList("Иногородние", OUT_OF_TOWN);
-        lists[NEEDS_DORMITORY] = new SinglyLinkedList("Нуждаются в общежитии", NEEDS_DORMITORY);
+        lists[MAIN_LIST] = new SinglyLinkedList("Все абитуриенты");
+        lists[EXCELLENT_EXAMS] = new SinglyLinkedList("Все экзамены на 5");
+        lists[HONORS_DIPLOMA] = new SinglyLinkedList("Аттестат с отличием");
+        lists[OUT_OF_TOWN] = new SinglyLinkedList("Иногородние");
+        lists[NEEDS_DORMITORY] = new SinglyLinkedList("Нуждаются в общежитии");
     }
-
 
     public void insertAbiturient(Abiturient data) {
         MultiListNode newNode = new MultiListNode(data, lists.length);
 
-        lists[MAIN_LIST].insertAtEnd(newNode);
+        lists[MAIN_LIST].insertAtEnd(newNode, MAIN_LIST);
 
         if (Arrays.stream(data.getExamScore()).allMatch(score -> score == 5)) {
-            lists[EXCELLENT_EXAMS].insertAtEnd(newNode);
+            lists[EXCELLENT_EXAMS].insertAtEnd(newNode, EXCELLENT_EXAMS);
         }
 
         if (data.isHasHonorsDiploma()) {
-            lists[HONORS_DIPLOMA].insertAtEnd(newNode);
+            lists[HONORS_DIPLOMA].insertAtEnd(newNode, HONORS_DIPLOMA);
         }
 
         if (!data.getCity().equalsIgnoreCase(universityCity)) {
-            lists[OUT_OF_TOWN].insertAtEnd(newNode);
+            lists[OUT_OF_TOWN].insertAtEnd(newNode, OUT_OF_TOWN);
         }
 
         if (data.isNeedsDormitory()) {
-            lists[NEEDS_DORMITORY].insertAtEnd(newNode);
+            lists[NEEDS_DORMITORY].insertAtEnd(newNode, NEEDS_DORMITORY);
         }
     }
-
-
 
     public boolean deleteAbiturient(String lastName) {
         MultiListNode nodeToDelete = null;
@@ -61,32 +63,30 @@ public class MultiList {
         }
 
         if (nodeToDelete == null) {
-            System.out.println("Абитуриент с фамилией '" + lastName + "' не найден.");
+            System.out.println(String.format(Messages.ERROR_NOT_FOUND, lastName));
             return false;
         }
 
         for (int i = 0; i < lists.length; i++) {
-            lists[i].deleteNode(nodeToDelete, nodeToDelete.getPrev()[i]);
+            lists[i].deleteNode(nodeToDelete, nodeToDelete.getPrev()[i], i);
         }
 
-        System.out.println("Абитуриент '" + lastName + "' удалён из всех списков.");
+        System.out.println(String.format(Messages.SUCCESS_DELETE, lastName));
         return true;
     }
-
 
     public void clearAll() {
         for (SinglyLinkedList list : lists) {
             list.clear();
         }
-        System.out.println("Все списки очищены.");
+        System.out.println(Messages.SUCCESS_CLEAR);
     }
-
 
     public void displayByCriterion(int index) {
         if (index >= 0 && index < lists.length) {
-            lists[index].display();
+            lists[index].display(index);
         } else {
-            System.out.println("Некорректный индекс списка.");
+            System.out.println(Messages.ERROR_INVALID_INDEX);
         }
     }
 }

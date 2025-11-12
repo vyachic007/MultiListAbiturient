@@ -1,22 +1,24 @@
+package service;
+
 import lombok.Getter;
+import model.MultiListNode;
+import util.Messages;
 
 @Getter
 public class SinglyLinkedList {
     private MultiListNode first;
     private MultiListNode last;
     private final String name;
-    private final int listIndex;
 
-    public SinglyLinkedList(String name, int listIndex) {
+    public SinglyLinkedList(String name) {
         this.name = name;
-        this.listIndex = listIndex;
     }
 
     public boolean isEmpty() {
         return first == null;
     }
 
-    public void insertAtEnd(MultiListNode newNode) {
+    public void insertAtEnd(MultiListNode newNode, int listIndex) {
         if (newNode == null) return;
 
         newNode.getNext()[listIndex] = null;
@@ -32,18 +34,18 @@ public class SinglyLinkedList {
         }
     }
 
-    public void deleteNode(MultiListNode nodeToDelete, MultiListNode previousNode) {
+    public void deleteNode(MultiListNode nodeToDelete, MultiListNode previousNode, int listIndex) {
         if (isEmpty() || nodeToDelete == null) return;
 
         if (previousNode == null) {
             first = nodeToDelete.getNext()[listIndex];
             if (first != null) {
-                first.getPrev()[listIndex] = null;  // ← Добавить
+                first.getPrev()[listIndex] = null;
             }
         } else {
             previousNode.getNext()[listIndex] = nodeToDelete.getNext()[listIndex];
             if (nodeToDelete.getNext()[listIndex] != null) {
-                nodeToDelete.getNext()[listIndex].getPrev()[listIndex] = previousNode;  // ← Добавить
+                nodeToDelete.getNext()[listIndex].getPrev()[listIndex] = previousNode;
             }
         }
 
@@ -55,20 +57,19 @@ public class SinglyLinkedList {
         nodeToDelete.getPrev()[listIndex] = null;
     }
 
-
     public void clear() {
         first = null;
         last = null;
     }
 
-    public void display() {
-        System.out.println("=== Список: " + name + " ===");
+    public void display(int listIndex) {
+        System.out.println(String.format(Messages.LIST_HEADER, name));
         MultiListNode current = first;
         int index = 1;
         while (current != null) {
-            System.out.printf("%d) %s%n", index++, current.getData());
+            System.out.printf(Messages.LIST_ITEM + "%n", index++, current.getData());
             current = current.getNext()[listIndex];
         }
-        System.out.println("=============================");
+        System.out.println(Messages.LIST_FOOTER);
     }
 }
